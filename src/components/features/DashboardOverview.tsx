@@ -79,7 +79,7 @@ export const DashboardOverview = () => {
             Smart Campus Dashboard
           </h1>
           <p className="text-muted-foreground mt-2">
-            Welcome to CLIC - Your AI-powered learning environment
+            Welcome to CILC - Your AI-powered learning environment
           </p>
         </div>
         <Button variant="gradient" size="lg" className="animate-pulse-glow">

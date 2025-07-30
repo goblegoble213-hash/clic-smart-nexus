@@ -75,7 +75,7 @@ export const Sidebar = ({ activeFeature, setActiveFeature }: SidebarProps) => {
       <div className="p-6">
         <div className="mb-8">
           <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            CLIC
+            CILC
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             Cognizant Immersive Learning Center
