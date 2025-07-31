@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { AINavigator } from "./features/AINavigator";
 import { InfraView } from "./features/InfraView";
+import { DigitalTwin } from "./features/DigitalTwin";
 import { SmartClassroom } from "./features/SmartClassroom";
 import { GlobalCalendar } from "./features/GlobalCalendar";
 import { LearningPlan } from "./features/LearningPlan";
@@ -20,6 +21,8 @@ export const Dashboard = () => {
         return <AINavigator />;
       case "infra-view":
         return <InfraView />;
+      case "digital-twin":
+        return <DigitalTwin />;
       case "smart-classroom":
         return <SmartClassroom />;
       case "calendar":

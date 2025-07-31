@@ -39,6 +39,12 @@ export const Sidebar = ({ activeFeature, setActiveFeature }: SidebarProps) => {
       gradient: "from-primary to-accent",
     },
     {
+      id: "digital-twin",
+      label: "Digital Twin",
+      icon: MapPin,
+      gradient: "from-accent to-primary",
+    },
+    {
       id: "smart-classroom",
       label: "Smart Classroom",
       icon: GraduationCap,
