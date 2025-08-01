@@ -24,7 +24,7 @@ export const InfraView = () => {
   const buildings = [
     {
       id: "main",
-      name: "Main Campus",
+      name: "Siruseri Academy Block",
       floors: 5,
       classrooms: 24,
       status: "optimal",
@@ -84,7 +84,7 @@ export const InfraView = () => {
       type: "warning",
       message: "Classroom 305 AC unit requires maintenance",
       time: "5 minutes ago",
-      building: "Main Campus",
+      building: "Siruseri Academy Block",
     },
     {
       type: "info",
