@@ -24,7 +24,7 @@ export const InfraView = () => {
   const buildings = [
     {
       id: "main",
-      name: "Chennai CILC Innovation Center",
+      name: "CILC Learning Center",
       floors: 5,
       classrooms: 24,
       status: "optimal",
@@ -84,7 +84,7 @@ export const InfraView = () => {
       type: "warning",
       message: "Classroom 305 AC unit requires maintenance",
       time: "5 minutes ago",
-      building: "Chennai CILC Innovation Center",
+      building: "CILC Learning Center",
     },
     {
       type: "info",
