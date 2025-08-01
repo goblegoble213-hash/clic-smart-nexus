@@ -40,7 +40,7 @@ export const InfraView = () => {
     },
     {
       id: "innovation",
-      name: "Innovation Center",
+      name: "Innovation Hub",
       floors: 2,
       classrooms: 12,
       status: "maintenance",
@@ -96,7 +96,7 @@ export const InfraView = () => {
       type: "success",
       message: "All smart boards updated successfully",
       time: "2 hours ago",
-      building: "Innovation Center",
+      building: "Innovation Hub",
     },
   ];
 
