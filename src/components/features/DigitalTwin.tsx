@@ -229,7 +229,7 @@ export const DigitalTwin = () => {
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-medium">Analysis Speed: {analysisSpeed[0]}x</label>
+              <label className="text-sm font-medium">Analysis Speed</label>
               <Slider
                 value={analysisSpeed}
                 onValueChange={setAnalysisSpeed}
