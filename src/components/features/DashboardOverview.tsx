@@ -23,7 +23,7 @@ export const DashboardOverview = () => {
     },
     {
       title: "Students Online",
-      value: "50,000",
+      value: "15,000",
       change: "+8%",
       icon: Users,
       color: "text-secondary",
