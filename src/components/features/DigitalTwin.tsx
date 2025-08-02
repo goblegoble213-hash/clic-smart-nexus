@@ -258,107 +258,6 @@ export const DigitalTwin = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Skill Gap Analysis */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="h-5 w-5" />
-              Skill Gap Analysis & Predictive Readiness
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center relative overflow-hidden">
-              {/* Skill gaps visualization */}
-              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] animate-pulse"></div>
-              
-              {/* Skill gap matrix */}
-              <div className="absolute inset-4 grid grid-cols-3 gap-3">
-                {skillGaps.map((skill, index) => (
-                  <div key={skill.skill} className="relative">
-                    <div className={`h-20 ${skill.color} rounded-lg opacity-80 flex flex-col items-center justify-center text-white text-xs font-bold p-2`}>
-                      <span className="text-center">{skill.skill}</span>
-                      <span className="text-2xl">{skill.gap}%</span>
-                      <span className="text-xs opacity-80">{skill.learners} learners</span>
-                    </div>
-                    <Badge 
-                      variant={skill.priority === "High" ? "destructive" : skill.priority === "Medium" ? "outline" : "secondary"}
-                      className="absolute -top-2 -right-2 text-xs"
-                    >
-                      {skill.priority}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="absolute bottom-4 left-4 bg-background/90 backdrop-blur-sm rounded-lg p-3">
-                <div className="flex items-center gap-2 text-sm">
-                  <Users className="h-4 w-4" />
-                  <span className="font-medium">Total Learners: {totalLearners}</span>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
-                <p className="text-lg font-semibold">AI-Powered Skill Gap Matrix</p>
-                <p className="text-sm text-muted-foreground">Real-time competency tracking and prediction</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Live Analytics */}
-        <div className="space-y-6">
-          {/* Readiness Distribution */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5" />
-                Industry Readiness
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {readinessLevels.map(level => (
-                <div key={level.level}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>{level.level}</span>
-                    <span>{level.count} ({level.percentage}%)</span>
-                  </div>
-                  <Progress value={level.percentage} className="h-2" />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Competency Metrics */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5" />
-                Competency Tracking
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {competencyMetrics.map(metric => (
-                <div key={metric.name}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>{metric.name}</span>
-                    <span>{metric.current}% / {metric.target}%</span>
-                  </div>
-                  <div className="relative">
-                    <Progress value={(metric.current / metric.target) * 100} className="h-2" />
-                    <div 
-                      className="absolute top-0 w-0.5 h-2 bg-primary"
-                      style={{ left: `${(metric.target / 100) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
       {/* Virtual Learner Twin Simulation */}
       <Card className="mb-6">
         <CardHeader>
@@ -534,6 +433,107 @@ export const DigitalTwin = () => {
           </div>
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Skill Gap Analysis */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="h-5 w-5" />
+              Skill Gap Analysis & Predictive Readiness
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="aspect-video bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center relative overflow-hidden">
+              {/* Skill gaps visualization */}
+              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_50%,transparent_75%)] animate-pulse"></div>
+              
+              {/* Skill gap matrix */}
+              <div className="absolute inset-4 grid grid-cols-3 gap-3">
+                {skillGaps.map((skill, index) => (
+                  <div key={skill.skill} className="relative">
+                    <div className={`h-20 ${skill.color} rounded-lg opacity-80 flex flex-col items-center justify-center text-white text-xs font-bold p-2`}>
+                      <span className="text-center">{skill.skill}</span>
+                      <span className="text-2xl">{skill.gap}%</span>
+                      <span className="text-xs opacity-80">{skill.learners} learners</span>
+                    </div>
+                    <Badge 
+                      variant={skill.priority === "High" ? "destructive" : skill.priority === "Medium" ? "outline" : "secondary"}
+                      className="absolute -top-2 -right-2 text-xs"
+                    >
+                      {skill.priority}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="absolute bottom-4 left-4 bg-background/90 backdrop-blur-sm rounded-lg p-3">
+                <div className="flex items-center gap-2 text-sm">
+                  <Users className="h-4 w-4" />
+                  <span className="font-medium">Total Learners: {totalLearners}</span>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
+                <p className="text-lg font-semibold">AI-Powered Skill Gap Matrix</p>
+                <p className="text-sm text-muted-foreground">Real-time competency tracking and prediction</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Live Analytics */}
+        <div className="space-y-6">
+          {/* Readiness Distribution */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Award className="h-5 w-5" />
+                Industry Readiness
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {readinessLevels.map(level => (
+                <div key={level.level}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>{level.level}</span>
+                    <span>{level.count} ({level.percentage}%)</span>
+                  </div>
+                  <Progress value={level.percentage} className="h-2" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Competency Metrics */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" />
+                Competency Tracking
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {competencyMetrics.map(metric => (
+                <div key={metric.name}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>{metric.name}</span>
+                    <span>{metric.current}% / {metric.target}%</span>
+                  </div>
+                  <div className="relative">
+                    <Progress value={(metric.current / metric.target) * 100} className="h-2" />
+                    <div 
+                      className="absolute top-0 w-0.5 h-2 bg-primary"
+                      style={{ left: `${(metric.target / 100) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
       {/* Learner Profiles & AI Insights */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
