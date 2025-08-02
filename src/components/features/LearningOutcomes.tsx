@@ -307,19 +307,52 @@ export const LearningOutcomes = () => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Completion Trends */}
+          {/* Key Performance Indicators - Moved to top */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Key Performance Indicators</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-success/5 to-success/10 border border-success/20">
+                  <p className="text-3xl font-bold text-success">1,247</p>
+                  <p className="text-sm text-muted-foreground">Total Students</p>
+                  <p className="text-xs text-success mt-1">+12% from last quarter</p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
+                  <p className="text-3xl font-bold text-primary">156</p>
+                  <p className="text-sm text-muted-foreground">Courses Completed</p>
+                  <p className="text-xs text-primary mt-1">+8% from last quarter</p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20">
+                  <p className="text-3xl font-bold text-accent">42</p>
+                  <p className="text-sm text-muted-foreground">Skills Acquired</p>
+                  <p className="text-xs text-accent mt-1">+15% from last quarter</p>
+                </div>
+                <div className="text-center p-4 rounded-lg bg-gradient-to-br from-warning/5 to-warning/10 border border-warning/20">
+                  <p className="text-3xl font-bold text-warning">98.3%</p>
+                  <p className="text-sm text-muted-foreground">Retention Rate</p>
+                  <p className="text-xs text-warning mt-1">+2.1% from last quarter</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Charts Section - Stacked for better readability */}
+          <div className="space-y-6">
+            {/* Completion Trends - Full Width */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-primary" />
                   Completion Trends
                 </CardTitle>
+                <p className="text-sm text-muted-foreground">Monthly completion rates vs targets</p>
               </CardHeader>
               <CardContent>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={completionTrendsData}>
+                    <LineChart data={completionTrendsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                       <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                       <XAxis 
                         dataKey="month" 
@@ -343,8 +376,9 @@ export const LearningOutcomes = () => {
                         dataKey="completion" 
                         stroke="hsl(var(--primary))" 
                         strokeWidth={3}
-                        dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
-                        activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
+                        dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 5 }}
+                        activeDot={{ r: 7, fill: 'hsl(var(--primary))' }}
+                        name="Actual Completion"
                       />
                       <Line 
                         type="monotone" 
@@ -352,7 +386,8 @@ export const LearningOutcomes = () => {
                         stroke="hsl(var(--muted-foreground))" 
                         strokeWidth={2}
                         strokeDasharray="5 5"
-                        dot={{ fill: 'hsl(var(--muted-foreground))', strokeWidth: 2, r: 3 }}
+                        dot={{ fill: 'hsl(var(--muted-foreground))', strokeWidth: 2, r: 4 }}
+                        name="Target"
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -360,86 +395,68 @@ export const LearningOutcomes = () => {
               </CardContent>
             </Card>
 
-            {/* Skills Distribution */}
+            {/* Skills Distribution - Full Width */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <PieChartIcon className="h-5 w-5 text-accent" />
                   Skills Distribution
                 </CardTitle>
+                <p className="text-sm text-muted-foreground">Distribution of acquired skills across students</p>
               </CardHeader>
               <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={skillsDistributionData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        innerRadius={40}
-                        paddingAngle={2}
-                        dataKey="value"
-                      >
-                        {skillsDistributionData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.fill} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        formatter={(value, name) => [`${value}%`, name]}
-                        contentStyle={{
-                          backgroundColor: 'hsl(var(--card))',
-                          border: '1px solid hsl(var(--border))',
-                          borderRadius: '6px',
-                        }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <div className="mt-4 space-y-2">
-                    {skillsDistributionData.map((skill, index) => (
-                      <div key={index} className="flex items-center justify-between text-sm">
-                        <div className="flex items-center gap-2">
-                          <div 
-                            className="w-3 h-3 rounded-full" 
-                            style={{ backgroundColor: skill.fill }}
-                          />
-                          <span>{skill.name}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={skillsDistributionData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          innerRadius={50}
+                          paddingAngle={3}
+                          dataKey="value"
+                        >
+                          {skillsDistributionData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.fill} />
+                          ))}
+                        </Pie>
+                        <Tooltip 
+                          formatter={(value, name) => [`${value}%`, name]}
+                          contentStyle={{
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '6px',
+                          }}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-lg">Skills Breakdown</h4>
+                    <div className="space-y-3">
+                      {skillsDistributionData.map((skill, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
+                          <div className="flex items-center gap-3">
+                            <div 
+                              className="w-4 h-4 rounded-full" 
+                              style={{ backgroundColor: skill.fill }}
+                            />
+                            <span className="font-medium">{skill.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-bold text-lg">{skill.value}%</span>
+                            <p className="text-xs text-muted-foreground">of total skills</p>
+                          </div>
                         </div>
-                        <span className="font-medium">{skill.value}%</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </div>
-
-          {/* Quick Stats */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Key Performance Indicators</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-success">1,247</p>
-                  <p className="text-sm text-muted-foreground">Total Students</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">156</p>
-                  <p className="text-sm text-muted-foreground">Courses Completed</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-accent">42</p>
-                  <p className="text-sm text-muted-foreground">Skills Acquired</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-warning">98.3%</p>
-                  <p className="text-sm text-muted-foreground">Retention Rate</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </TabsContent>
 
         <TabsContent value="courses" className="space-y-6">
