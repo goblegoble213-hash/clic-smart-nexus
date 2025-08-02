@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Users, Code, Crown } from "lucide-react";
+import { Users, Code, Crown, Shield } from "lucide-react";
 
 interface LoginProps {
   onLogin: (persona: string) => void;
@@ -28,6 +28,12 @@ const personas = [
     title: "Senior Leader",
     description: "Strategic oversight and organizational leadership",
     icon: Crown,
+  },
+  {
+    id: "admin",
+    title: "Admin",
+    description: "System administration and platform management",
+    icon: Shield,
   },
 ];
 
