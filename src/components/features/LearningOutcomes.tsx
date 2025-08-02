@@ -6,12 +6,24 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import {
   Zap,
   TrendingUp,
   Award,
   Target,
   BarChart3,
-  PieChart,
+  PieChart as PieChartIcon,
   Users,
   Calendar,
   CheckCircle,
@@ -164,6 +176,25 @@ export const LearningOutcomes = () => {
     },
   ];
 
+  // Completion Trends Data
+  const completionTrendsData = [
+    { month: "Jan", completion: 85, target: 80 },
+    { month: "Feb", completion: 88, target: 82 },
+    { month: "Mar", completion: 91, target: 85 },
+    { month: "Apr", completion: 89, target: 87 },
+    { month: "May", completion: 93, target: 90 },
+    { month: "Jun", completion: 94, target: 92 },
+  ];
+
+  // Skills Distribution Data
+  const skillsDistributionData = [
+    { name: "Frontend Development", value: 28, fill: "hsl(var(--primary))" },
+    { name: "Backend Development", value: 24, fill: "hsl(var(--secondary))" },
+    { name: "Database Design", value: 18, fill: "hsl(var(--accent))" },
+    { name: "DevOps & Deployment", value: 16, fill: "hsl(var(--success))" },
+    { name: "AI/ML Integration", value: 14, fill: "hsl(var(--warning))" },
+  ];
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "exceeded":
@@ -286,12 +317,45 @@ export const LearningOutcomes = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="aspect-[4/3] bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-lg border-2 border-dashed border-muted flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <BarChart3 className="h-12 w-12 text-primary mx-auto" />
-                    <p className="text-sm font-medium">Trend Analysis Chart</p>
-                    <p className="text-xs text-muted-foreground">Interactive completion rate visualization</p>
-                  </div>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={completionTrendsData}>
+                      <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                      <XAxis 
+                        dataKey="month" 
+                        className="text-xs"
+                        tick={{ fontSize: 12 }}
+                      />
+                      <YAxis 
+                        className="text-xs"
+                        tick={{ fontSize: 12 }}
+                        domain={[70, 100]}
+                      />
+                      <Tooltip 
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '6px',
+                        }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="completion" 
+                        stroke="hsl(var(--primary))" 
+                        strokeWidth={3}
+                        dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
+                        activeDot={{ r: 6, fill: 'hsl(var(--primary))' }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="target" 
+                        stroke="hsl(var(--muted-foreground))" 
+                        strokeWidth={2}
+                        strokeDasharray="5 5"
+                        dot={{ fill: 'hsl(var(--muted-foreground))', strokeWidth: 2, r: 3 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -300,16 +364,50 @@ export const LearningOutcomes = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <PieChart className="h-5 w-5 text-accent" />
+                  <PieChartIcon className="h-5 w-5 text-accent" />
                   Skills Distribution
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="aspect-[4/3] bg-gradient-to-br from-accent/5 via-success/5 to-primary/5 rounded-lg border-2 border-dashed border-muted flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <PieChart className="h-12 w-12 text-accent mx-auto" />
-                    <p className="text-sm font-medium">Skills Breakdown</p>
-                    <p className="text-xs text-muted-foreground">Distribution of acquired skills</p>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={skillsDistributionData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={100}
+                        innerRadius={40}
+                        paddingAngle={2}
+                        dataKey="value"
+                      >
+                        {skillsDistributionData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        formatter={(value, name) => [`${value}%`, name]}
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '6px',
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="mt-4 space-y-2">
+                    {skillsDistributionData.map((skill, index) => (
+                      <div key={index} className="flex items-center justify-between text-sm">
+                        <div className="flex items-center gap-2">
+                          <div 
+                            className="w-3 h-3 rounded-full" 
+                            style={{ backgroundColor: skill.fill }}
+                          />
+                          <span>{skill.name}</span>
+                        </div>
+                        <span className="font-medium">{skill.value}%</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </CardContent>
