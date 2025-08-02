@@ -25,6 +25,10 @@ import {
   Clock,
   Eye,
   Settings,
+  UserCheck,
+  Briefcase,
+  GraduationCap,
+  Rocket,
 } from "lucide-react";
 
 export const DigitalTwin = () => {
@@ -33,6 +37,7 @@ export const DigitalTwin = () => {
   const [selectedCohort, setSelectedCohort] = useState("batch-2024");
   const [selectedSkillDomain, setSelectedSkillDomain] = useState("all");
   const [totalLearners, setTotalLearners] = useState(245);
+  const [selectedLearner, setSelectedLearner] = useState("LP001");
 
   // Learning analytics data
   const skillGaps = [
@@ -54,30 +59,71 @@ export const DigitalTwin = () => {
     { 
       id: "LP001", 
       name: "Alex Kumar", 
+      currentRole: "Junior Developer",
       readiness: 85, 
       riskLevel: "Low", 
       strongSkills: ["JavaScript", "React"], 
       weakSkills: ["DevOps", "Testing"],
-      predictedCompletion: "2 weeks"
+      predictedCompletion: "2 weeks",
+      deploymentReadiness: 85,
+      learningVelocity: "Fast",
+      simulationData: {
+        futureLearning: ["Advanced React", "System Design", "Leadership"],
+        careerPath: "Senior Developer → Tech Lead",
+        potentialRoles: ["Frontend Architect", "Team Lead"]
+      }
     },
     { 
       id: "LP002", 
-      name: "Sarah Chen", 
+      name: "Sarah Chen",
+      currentRole: "Backend Developer",
       readiness: 62, 
       riskLevel: "Medium", 
       strongSkills: ["Database", "SQL"], 
       weakSkills: ["Frontend", "React"],
-      predictedCompletion: "6 weeks"
+      predictedCompletion: "6 weeks",
+      deploymentReadiness: 62,
+      learningVelocity: "Moderate",
+      simulationData: {
+        futureLearning: ["Full Stack Development", "React Fundamentals", "API Design"],
+        careerPath: "Backend Developer → Full Stack Developer",
+        potentialRoles: ["API Developer", "Database Architect"]
+      }
     },
     { 
       id: "LP003", 
-      name: "David Patel", 
+      name: "David Patel",
+      currentRole: "Graduate Trainee",
       readiness: 45, 
       riskLevel: "High", 
       strongSkills: ["Theory"], 
       weakSkills: ["Practical", "Coding"],
-      predictedCompletion: "10 weeks"
+      predictedCompletion: "10 weeks",
+      deploymentReadiness: 45,
+      learningVelocity: "Slow",
+      simulationData: {
+        futureLearning: ["Coding Bootcamp", "Practical Projects", "Mentoring"],
+        careerPath: "Trainee → Junior Developer",
+        potentialRoles: ["QA Engineer", "Junior Developer"]
+      }
     },
+    {
+      id: "LP004",
+      name: "Priya Sharma",
+      currentRole: "UI/UX Developer",
+      readiness: 78,
+      riskLevel: "Low",
+      strongSkills: ["React", "Design Systems"],
+      weakSkills: ["Backend", "Databases"],
+      predictedCompletion: "3 weeks",
+      deploymentReadiness: 78,
+      learningVelocity: "Fast",
+      simulationData: {
+        futureLearning: ["Full Stack Skills", "Node.js", "MongoDB"],
+        careerPath: "UI Developer → Full Stack Developer",
+        potentialRoles: ["Frontend Architect", "Product Developer"]
+      }
+    }
   ];
 
   const competencyMetrics = [
@@ -312,6 +358,182 @@ export const DigitalTwin = () => {
           </Card>
         </div>
       </div>
+
+      {/* Virtual Learner Twin Simulation */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <UserCheck className="h-5 w-5" />
+            Virtual Learner Twin Simulation
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Learner Selection */}
+            <Card className="border-dashed">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Select Learner</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {learnerProfiles.map(learner => (
+                  <div 
+                    key={learner.id}
+                    className={`p-3 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
+                      selectedLearner === learner.id ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : ''
+                    }`}
+                    onClick={() => setSelectedLearner(learner.id)}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{learner.name}</h4>
+                      <Badge variant={learner.riskLevel === "High" ? "destructive" : learner.riskLevel === "Medium" ? "outline" : "secondary"}>
+                        {learner.riskLevel}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Briefcase className="h-3 w-3" />
+                      {learner.currentRole}
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Current State Analysis */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Current State</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {(() => {
+                  const learner = learnerProfiles.find(l => l.id === selectedLearner);
+                  if (!learner) return null;
+                  
+                  return (
+                    <>
+                      <div className="text-center pb-4 border-b">
+                        <h3 className="font-semibold text-lg">{learner.name}</h3>
+                        <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
+                          <Briefcase className="h-3 w-3" />
+                          {learner.currentRole}
+                        </p>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <div className="flex justify-between text-sm mb-1">
+                            <span>Deployment Readiness</span>
+                            <span>{learner.deploymentReadiness}%</span>
+                          </div>
+                          <Progress value={learner.deploymentReadiness} className="h-2" />
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Skill Gaps</label>
+                          <div className="space-y-2">
+                            {learner.weakSkills.map(skill => (
+                              <div key={skill} className="flex items-center justify-between p-2 bg-destructive/5 border border-destructive/20 rounded">
+                                <span className="text-sm">{skill}</span>
+                                <Badge variant="destructive" className="text-xs">Gap</Badge>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="text-sm font-medium mb-2 block">Strong Skills</label>
+                          <div className="space-y-2">
+                            {learner.strongSkills.map(skill => (
+                              <div key={skill} className="flex items-center justify-between p-2 bg-success/5 border border-success/20 rounded">
+                                <span className="text-sm">{skill}</span>
+                                <Badge variant="secondary" className="text-xs">Strong</Badge>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="pt-2 border-t">
+                          <div className="flex items-center justify-between text-sm">
+                            <span>Learning Velocity</span>
+                            <Badge variant={learner.learningVelocity === "Fast" ? "default" : learner.learningVelocity === "Moderate" ? "outline" : "destructive"}>
+                              {learner.learningVelocity}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </CardContent>
+            </Card>
+
+            {/* Future Learning Simulation */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Rocket className="h-4 w-4" />
+                  Future Simulation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {(() => {
+                  const learner = learnerProfiles.find(l => l.id === selectedLearner);
+                  if (!learner) return null;
+                  
+                  return (
+                    <>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block flex items-center gap-1">
+                          <GraduationCap className="h-3 w-3" />
+                          Predicted Learning Path
+                        </label>
+                        <div className="space-y-2">
+                          {learner.simulationData.futureLearning.map((item, index) => (
+                            <div key={item} className="flex items-center gap-2 p-2 bg-primary/5 border border-primary/20 rounded">
+                              <div className="w-5 h-5 bg-primary/20 rounded-full flex items-center justify-center text-xs font-bold">
+                                {index + 1}
+                              </div>
+                              <span className="text-sm">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Career Progression</label>
+                        <div className="p-3 bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 rounded-lg">
+                          <p className="text-sm text-center font-medium">{learner.simulationData.careerPath}</p>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Potential Roles</label>
+                        <div className="space-y-2">
+                          {learner.simulationData.potentialRoles.map(role => (
+                            <div key={role} className="flex items-center gap-2 p-2 bg-secondary/5 border border-secondary/20 rounded">
+                              <Target className="h-3 w-3 text-secondary" />
+                              <span className="text-sm">{role}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="pt-3 border-t">
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground mb-2">Estimated completion</p>
+                          <Badge variant="outline" className="text-sm">
+                            <Clock className="h-3 w-3 mr-1" />
+                            {learner.predictedCompletion}
+                          </Badge>
+                        </div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </CardContent>
+            </Card>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Learner Profiles & AI Insights */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
