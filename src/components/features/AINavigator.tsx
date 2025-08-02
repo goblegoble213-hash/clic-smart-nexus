@@ -84,7 +84,7 @@ export const AINavigator = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-secondary bg-clip-text text-transparent">
-            AI Navigator
+            AI Assistant
           </h1>
           <p className="text-muted-foreground mt-2">
             Your intelligent learning companion powered by advanced AI
