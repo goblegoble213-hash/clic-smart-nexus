@@ -28,7 +28,7 @@ export const Sidebar = ({ activeFeature, setActiveFeature }: SidebarProps) => {
     },
     {
       id: "ai-navigator",
-      label: "AI Navigator",
+      label: "AI Assistant",
       icon: Brain,
       gradient: "from-secondary to-accent",
     },
