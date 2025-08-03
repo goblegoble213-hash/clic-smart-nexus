@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Users, Code, Crown, Shield } from "lucide-react";
-import cognizantLogo from "@/assets/cognizant-logo-2025.png";
 
 interface LoginProps {
   onLogin: (persona: string) => void;
@@ -51,14 +50,7 @@ export default function Login({ onLogin }: LoginProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="text-center space-y-4">
-          <div className="flex justify-center">
-            <img 
-              src={cognizantLogo} 
-              alt="Cognizant Logo" 
-              className="h-12 w-auto object-contain"
-            />
-          </div>
+        <CardHeader className="text-center">
           <CardTitle className="text-xl font-bold leading-tight">
             Welcome to CILC - Your AI-powered learning environment - Smart Learning Campus, Digital App
           </CardTitle>
