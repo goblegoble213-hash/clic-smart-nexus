@@ -1,66 +1,42 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CalendarDays, Clock, Globe, MapPin, Users, Video, Plus } from "lucide-react";
+import { Calendar, CalendarDays, Clock, Globe, MapPin, Users, Video, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
 export const GlobalCalendar = () => {
-  const [selectedDate, setSelectedDate] = useState("2024-01-15");
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 0, 15)); // January 15, 2025
   const [viewMode, setViewMode] = useState("week");
 
-  const sessions = [
-    {
-      id: 1,
-      title: "Advanced React Patterns",
-      instructor: "Dr. Sarah Chen",
-      time: "09:00 - 11:00",
-      timezone: "IST",
-      location: "Room 301 / Virtual",
-      attendees: 24,
-      maxAttendees: 30,
-      type: "hybrid",
-      status: "confirmed",
-      difficulty: "Advanced",
-    },
-    {
-      id: 2,
-      title: "Machine Learning Fundamentals",
-      instructor: "Prof. Michael Kumar",
-      time: "14:00 - 16:00",
-      timezone: "EST",
-      location: "Virtual Only",
-      attendees: 45,
-      maxAttendees: 50,
-      type: "virtual",
-      status: "confirmed",
-      difficulty: "Intermediate",
-    },
-    {
-      id: 3,
-      title: "Cloud Architecture Workshop",
-      instructor: "Dr. Emily Rodriguez",
-      time: "18:00 - 20:00",
-      timezone: "PST",
-      location: "Lab 205",
-      attendees: 18,
-      maxAttendees: 20,
-      type: "in-person",
-      status: "waitlist",
-      difficulty: "Advanced",
-    },
-    {
-      id: 4,
-      title: "AI Ethics Discussion",
-      instructor: "Prof. James Wilson",
-      time: "10:30 - 12:00",
-      timezone: "GMT",
-      location: "Virtual Only",
-      attendees: 67,
-      maxAttendees: 100,
-      type: "virtual",
-      status: "confirmed",
-      difficulty: "Beginner",
-    },
+  // Comprehensive 2025 session data
+  const sessions2025 = [
+    // January 2025
+    { id: 1, date: "2025-01-15", title: "Advanced React Patterns", instructor: "Dr. Sarah Chen", time: "09:00 - 11:00", timezone: "IST", location: "Room 301 / Virtual", attendees: 24, maxAttendees: 30, type: "hybrid", status: "confirmed", difficulty: "Advanced" },
+    { id: 2, date: "2025-01-15", title: "Machine Learning Fundamentals", instructor: "Prof. Michael Kumar", time: "14:00 - 16:00", timezone: "EST", location: "Virtual Only", attendees: 45, maxAttendees: 50, type: "virtual", status: "confirmed", difficulty: "Intermediate" },
+    { id: 3, date: "2025-01-16", title: "Cloud Architecture Workshop", instructor: "Dr. Emily Rodriguez", time: "18:00 - 20:00", timezone: "PST", location: "Lab 205", attendees: 18, maxAttendees: 20, type: "in-person", status: "waitlist", difficulty: "Advanced" },
+    { id: 4, date: "2025-01-17", title: "AI Ethics Discussion", instructor: "Prof. James Wilson", time: "10:30 - 12:00", timezone: "GMT", location: "Virtual Only", attendees: 67, maxAttendees: 100, type: "virtual", status: "confirmed", difficulty: "Beginner" },
+    { id: 5, date: "2025-01-18", title: "DevOps Masterclass", instructor: "Dr. Michael Torres", time: "15:00 - 17:00", timezone: "IST", location: "Virtual Only", attendees: 32, maxAttendees: 40, type: "virtual", status: "confirmed", difficulty: "Advanced" },
+    
+    // February 2025
+    { id: 6, date: "2025-02-03", title: "Frontend Performance Optimization", instructor: "Sarah Williams", time: "10:00 - 12:00", timezone: "EST", location: "Room 105", attendees: 28, maxAttendees: 35, type: "hybrid", status: "confirmed", difficulty: "Intermediate" },
+    { id: 7, date: "2025-02-05", title: "Database Design Patterns", instructor: "Prof. David Kim", time: "14:00 - 16:00", timezone: "PST", location: "Lab 301", attendees: 41, maxAttendees: 45, type: "in-person", status: "confirmed", difficulty: "Advanced" },
+    { id: 8, date: "2025-02-10", title: "Mobile App Security", instructor: "Dr. Lisa Zhang", time: "11:00 - 13:00", timezone: "JST", location: "Virtual Only", attendees: 35, maxAttendees: 40, type: "virtual", status: "confirmed", difficulty: "Advanced" },
+    { id: 9, date: "2025-02-12", title: "Agile Project Management", instructor: "Mark Johnson", time: "09:00 - 11:00", timezone: "GMT", location: "Room 202", attendees: 52, maxAttendees: 60, type: "hybrid", status: "confirmed", difficulty: "Beginner" },
+    { id: 10, date: "2025-02-15", title: "Kubernetes Deep Dive", instructor: "Dr. Alex Rodriguez", time: "16:00 - 18:00", timezone: "EST", location: "Lab 401", attendees: 29, maxAttendees: 30, type: "in-person", status: "waitlist", difficulty: "Advanced" },
+    
+    // March 2025
+    { id: 11, date: "2025-03-05", title: "GraphQL Advanced Concepts", instructor: "Emma Thompson", time: "13:00 - 15:00", timezone: "PST", location: "Virtual Only", attendees: 38, maxAttendees: 45, type: "virtual", status: "confirmed", difficulty: "Advanced" },
+    { id: 12, date: "2025-03-08", title: "UX/UI Design Principles", instructor: "Dr. Jennifer Lee", time: "10:00 - 12:00", timezone: "IST", location: "Design Lab", attendees: 44, maxAttendees: 50, type: "hybrid", status: "confirmed", difficulty: "Beginner" },
+    { id: 13, date: "2025-03-12", title: "Blockchain Fundamentals", instructor: "Prof. Robert Chen", time: "15:00 - 17:00", timezone: "GMT", location: "Virtual Only", attendees: 56, maxAttendees: 60, type: "virtual", status: "confirmed", difficulty: "Intermediate" },
+    { id: 14, date: "2025-03-15", title: "Microservices Architecture", instructor: "Dr. Amanda Davis", time: "14:00 - 16:00", timezone: "EST", location: "Tech Hub", attendees: 33, maxAttendees: 35, type: "in-person", status: "confirmed", difficulty: "Advanced" },
+    { id: 15, date: "2025-03-20", title: "Python Data Science", instructor: "Dr. Kevin Park", time: "11:00 - 13:00", timezone: "PST", location: "Data Lab", attendees: 47, maxAttendees: 50, type: "hybrid", status: "confirmed", difficulty: "Intermediate" },
+    
+    // Additional months with varied sessions...
+    { id: 16, date: "2025-04-08", title: "Cybersecurity Essentials", instructor: "Dr. Maria Garcia", time: "09:00 - 11:00", timezone: "EST", location: "Security Lab", attendees: 39, maxAttendees: 40, type: "in-person", status: "confirmed", difficulty: "Intermediate" },
+    { id: 17, date: "2025-04-15", title: "AWS Cloud Solutions", instructor: "James Wilson", time: "16:00 - 18:00", timezone: "PST", location: "Virtual Only", attendees: 51, maxAttendees: 55, type: "virtual", status: "confirmed", difficulty: "Advanced" },
+    { id: 18, date: "2025-05-10", title: "NoSQL Database Management", instructor: "Dr. Sophie Turner", time: "13:00 - 15:00", timezone: "GMT", location: "Database Lab", attendees: 26, maxAttendees: 30, type: "hybrid", status: "confirmed", difficulty: "Intermediate" },
+    { id: 19, date: "2025-06-05", title: "IoT Development Workshop", instructor: "Prof. Daniel Kim", time: "10:00 - 12:00", timezone: "JST", location: "IoT Lab", attendees: 31, maxAttendees: 35, type: "in-person", status: "confirmed", difficulty: "Advanced" },
+    { id: 20, date: "2025-07-12", title: "API Design Best Practices", instructor: "Laura Martinez", time: "14:00 - 16:00", timezone: "EST", location: "Virtual Only", attendees: 43, maxAttendees: 50, type: "virtual", status: "confirmed", difficulty: "Intermediate" },
   ];
 
   const upcomingEvents = [
@@ -131,12 +107,101 @@ export const GlobalCalendar = () => {
     }
   };
 
+  // Filter sessions based on current view
+  const getFilteredSessions = useMemo(() => {
+    const currentDateStr = currentDate.toISOString().split('T')[0];
+    
+    if (viewMode === "week") {
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+      
+      return sessions2025.filter(session => {
+        const sessionDate = new Date(session.date);
+        return sessionDate >= startOfWeek && sessionDate <= endOfWeek;
+      });
+    } else if (viewMode === "month") {
+      return sessions2025.filter(session => {
+        const sessionDate = new Date(session.date);
+        return sessionDate.getMonth() === currentDate.getMonth() && 
+               sessionDate.getFullYear() === currentDate.getFullYear();
+      });
+    } else {
+      return sessions2025.filter(session => session.date === currentDateStr);
+    }
+  }, [currentDate, viewMode]);
+
+  // Navigation helpers
+  const navigateDate = (direction: 'prev' | 'next') => {
+    const newDate = new Date(currentDate);
+    if (viewMode === "week") {
+      newDate.setDate(currentDate.getDate() + (direction === 'next' ? 7 : -7));
+    } else if (viewMode === "month") {
+      newDate.setMonth(currentDate.getMonth() + (direction === 'next' ? 1 : -1));
+    } else {
+      newDate.setDate(currentDate.getDate() + (direction === 'next' ? 1 : -1));
+    }
+    setCurrentDate(newDate);
+  };
+
+  // Format date range for display
+  const getDateRangeDisplay = () => {
+    const options: Intl.DateTimeFormatOptions = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
+    
+    if (viewMode === "week") {
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(startOfWeek.getDate() + 6);
+      return `${startOfWeek.toLocaleDateString('en-US', options)} - ${endOfWeek.toLocaleDateString('en-US', options)}`;
+    } else if (viewMode === "month") {
+      return currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+    } else {
+      return currentDate.toLocaleDateString('en-US', options);
+    }
+  };
+
+  // Generate calendar grid for month view
+  const generateMonthCalendar = () => {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    const days = [];
+    const current = new Date(startDate);
+    
+    for (let i = 0; i < 42; i++) {
+      const dayDate = new Date(current);
+      const isCurrentMonth = dayDate.getMonth() === month;
+      const dateStr = dayDate.toISOString().split('T')[0];
+      const daySessions = sessions2025.filter(session => session.date === dateStr);
+      
+      days.push({
+        date: dayDate,
+        isCurrentMonth,
+        sessions: daySessions
+      });
+      
+      current.setDate(current.getDate() + 1);
+    }
+    
+    return days;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-warning to-accent bg-clip-text text-transparent">
-            Global Session Calendar
+            Global Session Calendar 2025
           </h1>
           <p className="text-muted-foreground mt-2">
             Worldwide learning sessions across multiple time zones
@@ -154,114 +219,208 @@ export const GlobalCalendar = () => {
         </div>
       </div>
 
-      {/* View Mode Toggle */}
-      <div className="flex items-center gap-2">
-        <Button
-          variant={viewMode === "day" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setViewMode("day")}
-        >
-          Day
-        </Button>
-        <Button
-          variant={viewMode === "week" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setViewMode("week")}
-        >
-          Week
-        </Button>
-        <Button
-          variant={viewMode === "month" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setViewMode("month")}
-        >
-          Month
-        </Button>
+      {/* View Mode Toggle and Navigation */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button
+            variant={viewMode === "day" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setViewMode("day")}
+          >
+            Day
+          </Button>
+          <Button
+            variant={viewMode === "week" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setViewMode("week")}
+          >
+            Week
+          </Button>
+          <Button
+            variant={viewMode === "month" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setViewMode("month")}
+          >
+            Month
+          </Button>
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigateDate('prev')}>
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="font-medium text-sm min-w-[200px] text-center">
+              {getDateRangeDisplay()}
+            </span>
+            <Button variant="outline" size="sm" onClick={() => navigateDate('next')}>
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => setCurrentDate(new Date(2025, 0, 15))}>
+            Today
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Calendar/Sessions */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Today's Sessions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CalendarDays className="h-5 w-5 text-warning" />
-                Today's Sessions - January 15, 2024
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {sessions.map((session) => (
-                <div
-                  key={session.id}
-                  className="p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-semibold text-lg">{session.title}</h3>
-                      <p className="text-sm text-muted-foreground">{session.instructor}</p>
+          {viewMode === "month" ? (
+            /* Month View Calendar Grid */
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-warning" />
+                  {currentDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-7 gap-1 mb-4">
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    <div key={day} className="p-3 text-center font-medium text-sm text-muted-foreground">
+                      {day}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className={getDifficultyColor(session.difficulty)}>
-                        {session.difficulty}
-                      </Badge>
-                      <Badge className={getTypeColor(session.type)}>
-                        {session.type}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span>{session.time} {session.timezone}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {session.type === "virtual" ? (
-                        <Video className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <MapPin className="h-4 w-4 text-muted-foreground" />
-                      )}
-                      <span className="truncate">{session.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-muted-foreground" />
-                      <span>{session.attendees}/{session.maxAttendees}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-sm font-medium ${getStatusColor(session.status)}`}>
-                        {session.status.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="flex -space-x-1">
-                      {[...Array(Math.min(session.attendees, 5))].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-6 h-6 rounded-full bg-gradient-primary border-2 border-background flex items-center justify-center text-xs text-primary-foreground"
-                        >
-                          {String.fromCharCode(65 + i)}
-                        </div>
-                      ))}
-                      {session.attendees > 5 && (
-                        <div className="w-6 h-6 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs">
-                          +{session.attendees - 5}
-                        </div>
-                      )}
-                    </div>
-                    <Button
-                      variant={session.status === "waitlist" ? "outline" : "gradient"}
-                      size="sm"
-                    >
-                      {session.status === "waitlist" ? "Join Waitlist" : "Join Session"}
-                    </Button>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </CardContent>
-          </Card>
+                <div className="grid grid-cols-7 gap-1">
+                  {generateMonthCalendar().map((day, index) => (
+                    <div
+                      key={index}
+                      className={`p-2 min-h-[100px] border rounded-lg ${
+                        day.isCurrentMonth ? 'bg-background' : 'bg-muted/30'
+                      } ${
+                        day.date.toDateString() === currentDate.toDateString() 
+                          ? 'ring-2 ring-primary' 
+                          : ''
+                      }`}
+                    >
+                      <div className={`text-sm font-medium mb-1 ${
+                        day.isCurrentMonth ? 'text-foreground' : 'text-muted-foreground'
+                      }`}>
+                        {day.date.getDate()}
+                      </div>
+                      <div className="space-y-1">
+                        {day.sessions.slice(0, 3).map(session => (
+                          <div
+                            key={session.id}
+                            className={`text-xs p-1 rounded truncate ${getTypeColor(session.type)}`}
+                            title={`${session.title} - ${session.time}`}
+                          >
+                            {session.title}
+                          </div>
+                        ))}
+                        {day.sessions.length > 3 && (
+                          <div className="text-xs text-muted-foreground">
+                            +{day.sessions.length - 3} more
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            /* Week/Day View Sessions List */
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CalendarDays className="h-5 w-5 text-warning" />
+                  {viewMode === "week" ? "Week's Sessions" : "Today's Sessions"} - {getDateRangeDisplay()}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {getFilteredSessions.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <Calendar className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                    <p>No sessions scheduled for this {viewMode}</p>
+                  </div>
+                ) : (
+                  getFilteredSessions.map((session) => (
+                    <div
+                      key={session.id}
+                      className="p-4 rounded-lg border border-border hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-lg">{session.title}</h3>
+                            {viewMode === "week" && (
+                              <Badge variant="outline" className="text-xs">
+                                {new Date(session.date).toLocaleDateString('en-US', { 
+                                  weekday: 'short', 
+                                  month: 'short', 
+                                  day: 'numeric' 
+                                })}
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground">{session.instructor}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Badge className={getDifficultyColor(session.difficulty)}>
+                            {session.difficulty}
+                          </Badge>
+                          <Badge className={getTypeColor(session.type)}>
+                            {session.type}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-muted-foreground" />
+                          <span>{session.time} {session.timezone}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {session.type === "virtual" ? (
+                            <Video className="h-4 w-4 text-muted-foreground" />
+                          ) : (
+                            <MapPin className="h-4 w-4 text-muted-foreground" />
+                          )}
+                          <span className="truncate">{session.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Users className="h-4 w-4 text-muted-foreground" />
+                          <span>{session.attendees}/{session.maxAttendees}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-medium ${getStatusColor(session.status)}`}>
+                            {session.status.toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex items-center justify-between">
+                        <div className="flex -space-x-1">
+                          {[...Array(Math.min(session.attendees, 5))].map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-6 h-6 rounded-full bg-gradient-primary border-2 border-background flex items-center justify-center text-xs text-primary-foreground"
+                            >
+                              {String.fromCharCode(65 + i)}
+                            </div>
+                          ))}
+                          {session.attendees > 5 && (
+                            <div className="w-6 h-6 rounded-full bg-muted border-2 border-background flex items-center justify-center text-xs">
+                              +{session.attendees - 5}
+                            </div>
+                          )}
+                        </div>
+                        <Button
+                          variant={session.status === "waitlist" ? "outline" : "gradient"}
+                          size="sm"
+                        >
+                          {session.status === "waitlist" ? "Join Waitlist" : "Join Session"}
+                        </Button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Sidebar */}
@@ -331,12 +490,14 @@ export const GlobalCalendar = () => {
                 <h3 className="font-semibold">Session Stats</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
-                    <p className="text-2xl font-bold text-primary">127</p>
-                    <p className="text-xs text-muted-foreground">This Week</p>
+                    <p className="text-2xl font-bold text-primary">{getFilteredSessions.length}</p>
+                    <p className="text-xs text-muted-foreground">This {viewMode}</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-accent">89%</p>
-                    <p className="text-xs text-muted-foreground">Attendance</p>
+                    <p className="text-2xl font-bold text-accent">
+                      {sessions2025.length > 0 ? Math.round((sessions2025.reduce((sum, s) => sum + s.attendees, 0) / sessions2025.reduce((sum, s) => sum + s.maxAttendees, 0)) * 100) : 0}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">Avg Attendance</p>
                   </div>
                 </div>
               </div>
